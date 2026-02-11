@@ -62,7 +62,7 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  transition: opacity 1s ease, visibility 1s ease;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .loading-screen.hidden {
@@ -78,154 +78,138 @@ body {
   justify-content: center;
 }
 
-/* Mercedes-Benz Star Logo Animation */
-.loader-star-container {
+/* Mercedes Logo Container */
+.loader-logo-container {
   position: relative;
   width: 150px;
   height: 150px;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Outer ring with glow */
-.loader-ring {
-  position: absolute;
-  width: 140px;
-  height: 140px;
-  border: 2px solid transparent;
-  border-top-color: var(--accent-gold);
-  border-radius: 50%;
-  animation: ringRotate 2s linear infinite;
+/* Mercedes Star - Main Logo */
+.mercedes-star {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  animation: starLightUp 0.8s ease-out forwards;
 }
 
-.loader-ring::before {
-  content: "";
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  right: -3px;
-  bottom: -3px;
-  border: 2px solid transparent;
-  border-top-color: var(--accent-gold-light);
-  border-radius: 50%;
-  animation: ringRotate 3s linear infinite reverse;
+.mercedes-star svg {
+  width: 100%;
+  height: 100%;
+  color: var(--accent-gold);
 }
 
-@keyframes ringRotate {
+/* Star glow effect */
+.star-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, 
+    rgba(201, 169, 98, 0.6) 0%, 
+    rgba(201, 169, 98, 0.2) 40%, 
+    transparent 70%
+  );
+  border-radius: 50%;
+  opacity: 0;
+  animation: glowAppear 0.6s ease-out forwards;
+  animation-delay: 0.2s;
+  filter: blur(10px);
+}
+
+@keyframes glowAppear {
   0% {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
   }
   100% {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
-/* Mercedes Star */
-.loader-star {
-  position: relative;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.loader-star::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
-  opacity: 0.3;
-  animation: starGlow 2s ease-in-out infinite;
-}
-
-@keyframes starGlow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
+/* Initial light up animation */
+@keyframes starLightUp {
+  0% {
+    opacity: 0;
+    filter: drop-shadow(0 0 0 transparent);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.2);
+    opacity: 1;
+    filter: drop-shadow(0 0 30px var(--accent-gold)) drop-shadow(0 0 60px var(--accent-gold));
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px var(--accent-gold)) drop-shadow(0 0 30px rgba(201, 169, 98, 0.5));
   }
 }
 
-/* Star SVG */
-.star-icon {
-  width: 60px;
-  height: 60px;
-  position: relative;
-  z-index: 1;
+/* Eye blink effect - triggered at the end */
+.mercedes-star.blink {
+  animation: eyeBlink 0.4s ease-in-out;
 }
 
-.star-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: var(--accent-gold);
-  filter: drop-shadow(0 0 10px var(--accent-gold)) drop-shadow(0 0 20px var(--accent-gold));
-  animation: starPulse 2s ease-in-out infinite;
-}
-
-@keyframes starPulse {
-  0%, 100% {
-    filter: drop-shadow(0 0 10px var(--accent-gold)) drop-shadow(0 0 20px var(--accent-gold));
+@keyframes eyeBlink {
+  0% {
+    transform: scaleY(1);
+    filter: drop-shadow(0 0 15px var(--accent-gold)) drop-shadow(0 0 30px rgba(201, 169, 98, 0.5));
   }
   50% {
+    transform: scaleY(0.1);
+    filter: drop-shadow(0 0 5px var(--accent-gold));
+  }
+  100% {
+    transform: scaleY(1);
     filter: drop-shadow(0 0 20px var(--accent-gold)) drop-shadow(0 0 40px var(--accent-gold)) drop-shadow(0 0 60px var(--accent-gold));
   }
 }
 
-/* Light beams from star */
-.light-beam {
+/* Outer ring */
+.star-ring {
   position: absolute;
-  width: 2px;
-  height: 60px;
-  background: linear-gradient(to top, var(--accent-gold), transparent);
-  transform-origin: bottom center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 50%;
   opacity: 0;
-  animation: beamPulse 2s ease-in-out infinite;
-}
-
-.light-beam:nth-child(1) {
-  transform: rotate(0deg) translateY(-40px);
-  animation-delay: 0s;
-}
-
-.light-beam:nth-child(2) {
-  transform: rotate(120deg) translateY(-40px);
+  animation: ringAppear 0.5s ease-out forwards;
   animation-delay: 0.3s;
 }
 
-.light-beam:nth-child(3) {
-  transform: rotate(240deg) translateY(-40px);
-  animation-delay: 0.6s;
-}
-
-@keyframes beamPulse {
-  0%, 100% {
+@keyframes ringAppear {
+  0% {
     opacity: 0;
-    height: 40px;
+    transform: translate(-50%, -50%) scale(0.8);
   }
-  50% {
-    opacity: 0.8;
-    height: 70px;
+  100% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
 /* Brand text */
-.loader-logo {
-  font-size: 2.5rem;
+.loader-brand {
+  font-size: 2.2rem;
   font-weight: 300;
   color: var(--primary-white);
-  letter-spacing: 0.4em;
+  letter-spacing: 0.35em;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: 0.5s;
 }
 
-.loader-logo span {
+.loader-brand span {
   font-weight: 700;
   background: linear-gradient(135deg, var(--primary-white), var(--accent-gold-light));
   -webkit-background-clip: text;
@@ -233,60 +217,59 @@ body {
   background-clip: text;
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Tagline */
-.loader-text {
-  font-size: 0.85rem;
+.loader-tagline {
+  font-size: 0.75rem;
   color: var(--accent-gold);
-  letter-spacing: 0.5em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  margin-bottom: 2.5rem;
-  opacity: 0.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: 0.7s;
 }
 
 /* Progress bar */
 .loader-bar {
-  width: 250px;
+  width: 180px;
   height: 1px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 1px;
   overflow: hidden;
   position: relative;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: 0.9s;
 }
 
 .loader-progress {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-gold-dark), var(--accent-gold), var(--accent-gold-light), var(--accent-gold));
-  background-size: 200% 100%;
-  animation: loadingProgress 2.5s ease-in-out forwards, shimmer 1.5s linear infinite;
-}
-
-@keyframes loadingProgress {
-  0% { 
-    width: 0%; 
-    background-position: 100% 0;
-  }
-  100% { 
-    width: 100%; 
-    background-position: 0 0;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+  background: linear-gradient(90deg, var(--accent-gold-dark), var(--accent-gold), var(--accent-gold-light));
+  width: 0%;
+  transition: width 0.3s ease;
 }
 
 /* Loading percentage */
 .loader-percentage {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--accent-silver);
-  letter-spacing: 0.2em;
-  margin-top: 1rem;
+  letter-spacing: 0.15em;
+  margin-top: 0.8rem;
   font-weight: 300;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: 1s;
 }
 
 /* Scroll Progress Indicator */

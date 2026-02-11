@@ -20,25 +20,24 @@
     <!-- Loading Screen -->
     <div class="loading-screen">
       <div class="loader">
-        <div class="loader-star-container">
-          <div class="loader-ring"></div>
-          <div class="loader-star">
-            <div class="light-beam"></div>
-            <div class="light-beam"></div>
-            <div class="light-beam"></div>
-            <div class="star-icon">
-              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="50,5 61,40 97,40 68,62 79,97 50,75 21,97 32,62 3,40 39,40" />
-              </svg>
-            </div>
+        <div class="loader-logo-container">
+          <div class="star-ring"></div>
+          <div class="star-glow"></div>
+          <div class="mercedes-star" id="mercedes-star">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="50" y1="8" x2="50" y2="50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="50" y1="50" x2="15" y2="78" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="50" y1="50" x2="85" y2="78" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
           </div>
         </div>
-        <div class="loader-logo">Mercedes<span>-Benz</span></div>
-        <div class="loader-text">The Best or Nothing</div>
+        <div class="loader-brand">Mercedes<span>-Benz</span></div>
+        <div class="loader-tagline">The Best or Nothing</div>
         <div class="loader-bar">
-          <div class="loader-progress"></div>
+          <div class="loader-progress" id="loader-progress"></div>
         </div>
-        <div class="loader-percentage">Loading...</div>
+        <div class="loader-percentage" id="loader-percentage">0%</div>
       </div>
     </div>
 

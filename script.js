@@ -4,24 +4,43 @@
 
 window.addEventListener("load", () => {
   const loadingScreen = document.querySelector(".loading-screen");
-  const percentageEl = document.querySelector(".loader-percentage");
+  const progressEl = document.getElementById("loader-progress");
+  const percentageEl = document.getElementById("loader-percentage");
+  const mercedesStar = document.getElementById("mercedes-star");
   
   let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.random() * 15;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
-      percentageEl.textContent = "100%";
+  const duration = 2500; // Total loading time
+  const startTime = Date.now();
+  
+  function updateProgress() {
+    const elapsed = Date.now() - startTime;
+    progress = Math.min((elapsed / duration) * 100, 100);
+    
+    // Update progress bar
+    progressEl.style.width = progress + "%";
+    percentageEl.textContent = Math.round(progress) + "%";
+    
+    if (progress < 100) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      // Loading complete - trigger blink effect
+      percentageEl.textContent = "Ready";
       
+      // Add blink class to trigger eye blink animation
+      mercedesStar.classList.add("blink");
+      
+      // Wait for blink animation to complete, then hide loading screen
       setTimeout(() => {
         loadingScreen.classList.add("hidden");
         document.body.style.opacity = "1";
-      }, 500);
-    } else {
-      percentageEl.textContent = Math.round(progress) + "%";
+      }, 600);
     }
-  }, 200);
+  }
+  
+  // Start progress after initial light-up animation
+  setTimeout(() => {
+    requestAnimationFrame(updateProgress);
+  }, 300);
 });
 
 // ===================================
