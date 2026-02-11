@@ -1,8 +1,109 @@
 // ===================================
+// LOADING SCREEN
+// ===================================
+
+window.addEventListener("load", () => {
+  const loadingScreen = document.querySelector(".loading-screen");
+  const percentageEl = document.querySelector(".loader-percentage");
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      percentageEl.textContent = "100%";
+      
+      setTimeout(() => {
+        loadingScreen.classList.add("hidden");
+        document.body.style.opacity = "1";
+      }, 500);
+    } else {
+      percentageEl.textContent = Math.round(progress) + "%";
+    }
+  }, 200);
+});
+
+// ===================================
+// SCROLL PROGRESS INDICATOR
+// ===================================
+
+function updateScrollProgress() {
+  const scrollProgress = document.querySelector(".scroll-progress");
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  scrollProgress.style.width = scrolled + "%";
+}
+
+window.addEventListener("scroll", updateScrollProgress);
+
+// ===================================
+// NAVIGATION
+// ===================================
+
+const navbar = document.querySelector(".navbar");
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+// Navbar scroll effect
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 100) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+
+// Mobile menu toggle
+menuToggle.addEventListener("click", () => {
+  menuToggle.classList.toggle("active");
+  navLinks.classList.toggle("active");
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll(".nav-links a, .nav-logo").forEach((link) => {
+  link.addEventListener("click", (e) => {
+    const href = link.getAttribute("href");
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        smoothScrollTo(href.substring(1));
+        menuToggle.classList.remove("active");
+        navLinks.classList.remove("active");
+      }
+    }
+  });
+});
+
+// ===================================
+// PARTICLE EFFECTS
+// ===================================
+
+function createParticles() {
+  const particlesContainer = document.getElementById("particles");
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.left = Math.random() * 100 + "%";
+    particle.style.animationDelay = Math.random() * 8 + "s";
+    particle.style.animationDuration = (Math.random() * 4 + 6) + "s";
+    particle.style.width = (Math.random() * 4 + 2) + "px";
+    particle.style.height = particle.style.width;
+    particle.style.opacity = Math.random() * 0.5 + 0.3;
+    particlesContainer.appendChild(particle);
+  }
+}
+
+createParticles();
+
+// ===================================
 // INTERSECTION OBSERVER FOR ANIMATIONS
 // ===================================
 
-// Create observer for scroll-triggered animations
 const observerOptions = {
   threshold: 0.2,
   rootMargin: "0px 0px -100px 0px",
@@ -25,7 +126,7 @@ const animationObserver = new IntersectionObserver((entries) => {
 window.addEventListener("DOMContentLoaded", () => {
   const animatedElements = document.querySelectorAll(
     ".fade-in, .slide-in-left, .slide-in-right, .slide-up, " +
-      ".float-in, .reveal-scale, .clip-reveal",
+      ".float-in, .reveal-scale, .clip-reveal"
   );
 
   animatedElements.forEach((el) => {
@@ -99,7 +200,7 @@ function animateCounter(card) {
   if (!valueElement || valueElement.dataset.animated) return;
 
   const target = parseFloat(valueElement.dataset.target);
-  const duration = 2000; // 2 seconds
+  const duration = 2000;
   const steps = 60;
   const increment = target / steps;
   const stepDuration = duration / steps;
@@ -132,7 +233,7 @@ function smoothScrollTo(targetId) {
   const target = document.getElementById(targetId);
   if (!target) return;
 
-  const targetPosition = target.offsetTop;
+  const targetPosition = target.offsetTop - 80;
   const startPosition = window.scrollY;
   const distance = targetPosition - startPosition;
   const duration = 1200;
@@ -160,22 +261,122 @@ function smoothScrollTo(targetId) {
 }
 
 // ===================================
+// MAGNETIC BUTTON EFFECT
+// ===================================
+
+const magneticBtns = document.querySelectorAll(".magnetic-btn");
+
+magneticBtns.forEach((btn) => {
+  btn.addEventListener("mousemove", (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    
+    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+  });
+  
+  btn.addEventListener("mouseleave", () => {
+    btn.style.transform = "translate(0, 0)";
+  });
+});
+
+// ===================================
+// 3D TILT EFFECT
+// ===================================
+
+const tiltCards = document.querySelectorAll(".tilt-card");
+
+tiltCards.forEach((card) => {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  });
+  
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+  });
+});
+
+// ===================================
+// LIGHTBOX GALLERY
+// ===================================
+
+const galleryItems = document.querySelectorAll(".gallery-item");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxClose = document.querySelector(".lightbox-close");
+const lightboxPrev = document.querySelector(".lightbox-prev");
+const lightboxNext = document.querySelector(".lightbox-next");
+
+let currentImageIndex = 0;
+const galleryImages = Array.from(galleryItems).map((item) => {
+  return item.querySelector("img").src;
+});
+
+// Open lightbox
+galleryItems.forEach((item, index) => {
+  item.addEventListener("click", () => {
+    currentImageIndex = index;
+    openLightbox(galleryImages[index]);
+  });
+});
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function nextImage() {
+  currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+  lightboxImg.src = galleryImages[currentImageIndex];
+}
+
+function prevImage() {
+  currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+  lightboxImg.src = galleryImages[currentImageIndex];
+}
+
+lightboxClose.addEventListener("click", closeLightbox);
+lightboxNext.addEventListener("click", nextImage);
+lightboxPrev.addEventListener("click", prevImage);
+
+// Close lightbox on background click
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+// Keyboard navigation for lightbox
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("active")) return;
+  
+  if (e.key === "Escape") closeLightbox();
+  if (e.key === "ArrowRight") nextImage();
+  if (e.key === "ArrowLeft") prevImage();
+});
+
+// ===================================
 // IMAGE LAZY LOADING ENHANCEMENT
 // ===================================
 
-// Add loading states for images
-window.addEventListener("DOMContentLoaded", () => {
-  const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-
-  lazyImages.forEach((img) => {
-    img.addEventListener("load", () => {
-      img.style.opacity = "1";
-      img.style.transition = "opacity 0.5s ease";
-    });
-
-    img.style.opacity = "0";
-  });
-});
+// Images are set to opacity: 1 in CSS by default
+// No additional JavaScript needed for lazy loading fade-in
 
 // ===================================
 // TOUCH GESTURES FOR MOBILE GALLERY
@@ -192,7 +393,7 @@ if (gallery && window.innerWidth <= 768) {
     (e) => {
       touchStartX = e.changedTouches[0].screenX;
     },
-    { passive: true },
+    { passive: true }
   );
 
   gallery.addEventListener(
@@ -201,7 +402,7 @@ if (gallery && window.innerWidth <= 768) {
       touchEndX = e.changedTouches[0].screenX;
       handleGallerySwipe();
     },
-    { passive: true },
+    { passive: true }
   );
 }
 
@@ -211,11 +412,9 @@ function handleGallerySwipe() {
 
   if (Math.abs(difference) > swipeThreshold) {
     if (difference > 0) {
-      // Swipe left - could be used for gallery navigation
-      console.log("Swiped left on gallery");
+      nextImage();
     } else {
-      // Swipe right
-      console.log("Swiped right on gallery");
+      prevImage();
     }
   }
 }
@@ -224,7 +423,6 @@ function handleGallerySwipe() {
 // PERFORMANCE OPTIMIZATION
 // ===================================
 
-// Debounce function for resize events
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -246,24 +444,6 @@ const handleResize = debounce(() => {
 window.addEventListener("resize", handleResize);
 
 // ===================================
-// SCROLL PROGRESS INDICATOR (Optional Enhancement)
-// ===================================
-
-function updateScrollProgress() {
-  const winScroll =
-    document.body.scrollTop || document.documentElement.scrollTop;
-  const height =
-    document.documentElement.scrollHeight -
-    document.documentElement.clientHeight;
-  const scrolled = (winScroll / height) * 100;
-
-  // You can add a progress bar element if desired
-  // document.getElementById('progressBar').style.width = scrolled + '%';
-}
-
-window.addEventListener("scroll", debounce(updateScrollProgress, 10));
-
-// ===================================
 // INITIAL PAGE LOAD ANIMATION
 // ===================================
 
@@ -276,7 +456,6 @@ window.addEventListener("load", () => {
 // ACCESSIBILITY: KEYBOARD NAVIGATION
 // ===================================
 
-// Add keyboard navigation for CTA button
 const ctaButton = document.querySelector(".cta-button");
 if (ctaButton) {
   ctaButton.addEventListener("keydown", (e) => {
@@ -299,14 +478,50 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===================================
+// SCROLL REVEAL FOR SECTION TITLES
+// ===================================
+
+const sectionTitles = document.querySelectorAll(".section-title");
+
+const titleObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.5 });
+
+sectionTitles.forEach((title) => {
+  titleObserver.observe(title);
+});
+
+// ===================================
+// DYNAMIC AMBIENT LIGHT EFFECT
+// ===================================
+
+function createAmbientGlow() {
+  const heroSection = document.querySelector(".hero-section");
+  
+  heroSection.addEventListener("mousemove", (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    heroSection.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(201, 169, 98, 0.1), transparent 50%)`;
+  });
+}
+
+createAmbientGlow();
+
+// ===================================
 // CONSOLE STATEMENT (Development)
 // ===================================
 
 console.log(
   "%c The S-Class - Excellence Refined ",
-  "background: #000; color: #fff; font-size: 16px; font-weight: bold; padding: 10px;",
+  "background: linear-gradient(90deg, #9a7b3c, #c9a962); color: #000; font-size: 16px; font-weight: bold; padding: 10px;"
 );
 console.log(
   "%c Powered by Mercedes-Benz Premium Experience ",
-  "background: #C0C0C0; color: #000; font-size: 12px; padding: 5px;",
+  "background: #000; color: #c9a962; font-size: 12px; padding: 5px;"
 );

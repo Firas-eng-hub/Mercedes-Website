@@ -17,6 +17,52 @@
     />
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+      <div class="loader">
+        <div class="loader-star-container">
+          <div class="loader-ring"></div>
+          <div class="loader-star">
+            <div class="light-beam"></div>
+            <div class="light-beam"></div>
+            <div class="light-beam"></div>
+            <div class="star-icon">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50,5 61,40 97,40 68,62 79,97 50,75 21,97 32,62 3,40 39,40" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="loader-logo">Mercedes<span>-Benz</span></div>
+        <div class="loader-text">The Best or Nothing</div>
+        <div class="loader-bar">
+          <div class="loader-progress"></div>
+        </div>
+        <div class="loader-percentage">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <a href="#hero" class="nav-logo">S-CLASS</a>
+      <ul class="nav-links">
+        <li><a href="#design">Design</a></li>
+        <li><a href="#interior">Interior</a></li>
+        <li><a href="#performance">Performance</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+      </ul>
+      <button class="nav-cta magnetic-btn">Configure</button>
+      <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
       <div class="parallax-bg">
@@ -29,14 +75,16 @@
           />
         </div>
       </div>
+      <!-- Particle Effects -->
+      <div class="particles" id="particles"></div>
       <div class="hero-content">
         <h1 class="hero-title fade-in-up">The S-Class</h1>
         <p class="hero-subtitle fade-in-up delay-1">Excellence Refined</p>
         <button
-          class="cta-button fade-in-up delay-2"
+          class="cta-button magnetic-btn fade-in-up delay-2"
           onclick="smoothScrollTo('design')"
         >
-          Explore
+          <span>Explore</span>
         </button>
       </div>
       <div class="scroll-indicator fade-in-up delay-3">
@@ -119,19 +167,19 @@
           <div class="split-content slide-in-left">
             <h2 class="section-title light">Power Meets Elegance</h2>
             <div class="specs-grid">
-              <div class="spec-card fade-in delay-1">
+              <div class="spec-card tilt-card fade-in delay-1">
                 <div class="spec-value" data-target="496">0</div>
                 <div class="spec-label">Horsepower</div>
               </div>
-              <div class="spec-card fade-in delay-2">
+              <div class="spec-card tilt-card fade-in delay-2">
                 <div class="spec-value" data-target="4.5">0</div>
                 <div class="spec-label">0-100 km/h (sec)</div>
               </div>
-              <div class="spec-card fade-in delay-3">
+              <div class="spec-card tilt-card fade-in delay-3">
                 <div class="spec-value" data-target="250">0</div>
                 <div class="spec-label">Top Speed (km/h)</div>
               </div>
-              <div class="spec-card fade-in delay-4">
+              <div class="spec-card tilt-card fade-in delay-4">
                 <div class="spec-value" data-target="9">0</div>
                 <div class="spec-label">Speed Gearbox</div>
               </div>
@@ -168,32 +216,57 @@
       <div class="container">
         <h2 class="section-title center light">Intelligence Redefined</h2>
         <div class="tech-cards">
-          <div class="tech-card glass-card float-in delay-1">
-            <div class="tech-icon">🖥️</div>
+          <div class="tech-card glass-card tilt-card float-in delay-1">
+            <div class="tech-icon-wrapper">
+              <svg class="tech-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
             <h3>MBUX Hyperscreen</h3>
             <p>
               56-inch curved display spanning the entire dashboard with
               AI-powered assistance
             </p>
+            <div class="tech-spec">56" Display</div>
           </div>
-          <div class="tech-card glass-card float-in delay-2">
-            <div class="tech-icon">🛡️</div>
+          <div class="tech-card glass-card tilt-card float-in delay-2">
+            <div class="tech-icon-wrapper">
+              <svg class="tech-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
             <h3>PRE-SAFE® Impulse</h3>
             <p>
               Anticipatory safety system that detects potential side impacts
             </p>
+            <div class="tech-spec">Active Safety</div>
           </div>
-          <div class="tech-card glass-card float-in delay-3">
-            <div class="tech-icon">🚗</div>
+          <div class="tech-card glass-card tilt-card float-in delay-3">
+            <div class="tech-icon-wrapper">
+              <svg class="tech-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
             <h3>DRIVE PILOT</h3>
             <p>
               Level 3 autonomous driving for ultimate relaxation on the road
             </p>
+            <div class="tech-spec">Level 3 AD</div>
           </div>
-          <div class="tech-card glass-card float-in delay-4">
-            <div class="tech-icon">💨</div>
+          <div class="tech-card glass-card tilt-card float-in delay-4">
+            <div class="tech-icon-wrapper">
+              <svg class="tech-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2a10 10 0 1 0 10 10"/>
+                <path d="M12 12l8-8"/>
+                <circle cx="12" cy="12" r="2"/>
+              </svg>
+            </div>
             <h3>ENERGIZING Comfort</h3>
             <p>Climate, lighting, and sound harmonized for your well-being</p>
+            <div class="tech-spec">Wellness Suite</div>
           </div>
         </div>
       </div>
@@ -204,28 +277,28 @@
       <div class="container">
         <h2 class="section-title center light">Attention to Detail</h2>
         <div class="gallery-grid">
-          <div class="gallery-item reveal-scale delay-1">
+          <div class="gallery-item reveal-scale delay-1" data-index="0">
             <img
               src="Car/Gemini_Generated_Image_9z32ep9z32ep9z32.png"
               alt="Mercedes Logo Detail"
               loading="lazy"
             />
           </div>
-          <div class="gallery-item reveal-scale delay-2">
+          <div class="gallery-item reveal-scale delay-2" data-index="1">
             <img
               src="Car/Gemini_Generated_Image_s9y1gks9y1gks9y1.png"
               alt="Wheel Detail"
               loading="lazy"
             />
           </div>
-          <div class="gallery-item reveal-scale delay-3">
+          <div class="gallery-item reveal-scale delay-3" data-index="2">
             <img
               src="Car/Gemini_Generated_Image_r5t12fr5t12fr5t1.png"
               alt="Night Ambiance"
               loading="lazy"
             />
           </div>
-          <div class="gallery-item reveal-scale delay-4">
+          <div class="gallery-item reveal-scale delay-4" data-index="3">
             <img
               src="Car/Gemini_Generated_Image_krpfookrpfookrpf.png"
               alt="Aerial View"
@@ -236,12 +309,28 @@
       </div>
     </section>
 
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <span class="lightbox-close">&times;</span>
+      <span class="lightbox-nav lightbox-prev">&#10094;</span>
+      <span class="lightbox-nav lightbox-next">&#10095;</span>
+      <div class="lightbox-content">
+        <img src="" alt="Gallery Image" id="lightbox-img" />
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
+          <div class="footer-logo">MERCEDES-<span>BENZ</span></div>
           <p>&copy; 2024 Mercedes-Benz. All rights reserved.</p>
           <p class="footer-note">The S-Class - Excellence Refined</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+          </div>
         </div>
       </div>
     </footer>
