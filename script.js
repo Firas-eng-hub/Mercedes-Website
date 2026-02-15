@@ -1,4 +1,53 @@
 // ===================================
+// CUSTOM CURSOR LOGIC
+// ===================================
+
+const cursor = document.querySelector(".custom-cursor");
+const cursorDot = document.querySelector(".cursor-dot");
+const cursorRing = document.querySelector(".cursor-ring");
+
+let mouseX = 0;
+let mouseY = 0;
+let ringX = 0;
+let ringY = 0;
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  cursorDot.style.left = mouseX + "px";
+  cursorDot.style.top = mouseY + "px";
+});
+
+// Smooth ring movement
+function animateCursor() {
+  const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+  ringX = lerp(ringX, mouseX, 0.15);
+  ringY = lerp(ringY, mouseY, 0.15);
+
+  cursorRing.style.left = ringX + "px";
+  cursorRing.style.top = ringY + "px";
+
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Add hover states
+const interactiveElements = document.querySelectorAll(
+  "a, button, .gallery-item, .tag, .spec-card, .tech-card, .magnetic-btn",
+);
+
+interactiveElements.forEach((el) => {
+  el.addEventListener("mouseenter", () => {
+    cursor.classList.add("hovering");
+  });
+  el.addEventListener("mouseleave", () => {
+    cursor.classList.remove("hovering");
+  });
+});
+
+// ===================================
 // LOADING SCREEN
 // ===================================
 
@@ -7,28 +56,28 @@ window.addEventListener("load", () => {
   const progressEl = document.getElementById("loader-progress");
   const percentageEl = document.getElementById("loader-percentage");
   const mercedesStar = document.getElementById("mercedes-star");
-  
+
   let progress = 0;
   const duration = 2500; // Total loading time
   const startTime = Date.now();
-  
+
   function updateProgress() {
     const elapsed = Date.now() - startTime;
     progress = Math.min((elapsed / duration) * 100, 100);
-    
+
     // Update progress bar
     progressEl.style.width = progress + "%";
     percentageEl.textContent = Math.round(progress) + "%";
-    
+
     if (progress < 100) {
       requestAnimationFrame(updateProgress);
     } else {
       // Loading complete - trigger blink effect
       percentageEl.textContent = "Ready";
-      
+
       // Add blink class to trigger eye blink animation
       mercedesStar.classList.add("blink");
-      
+
       // Wait for blink animation to complete, then hide loading screen
       setTimeout(() => {
         loadingScreen.classList.add("hidden");
@@ -36,7 +85,7 @@ window.addEventListener("load", () => {
       }, 600);
     }
   }
-  
+
   // Start progress after initial light-up animation
   setTimeout(() => {
     requestAnimationFrame(updateProgress);
@@ -49,8 +98,11 @@ window.addEventListener("load", () => {
 
 function updateScrollProgress() {
   const scrollProgress = document.querySelector(".scroll-progress");
-  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const winScroll =
+    document.body.scrollTop || document.documentElement.scrollTop;
+  const height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
   const scrolled = (winScroll / height) * 100;
   scrollProgress.style.width = scrolled + "%";
 }
@@ -103,14 +155,14 @@ document.querySelectorAll(".nav-links a, .nav-logo").forEach((link) => {
 function createParticles() {
   const particlesContainer = document.getElementById("particles");
   const particleCount = 50;
-  
+
   for (let i = 0; i < particleCount; i++) {
     const particle = document.createElement("div");
     particle.className = "particle";
     particle.style.left = Math.random() * 100 + "%";
     particle.style.animationDelay = Math.random() * 8 + "s";
-    particle.style.animationDuration = (Math.random() * 4 + 6) + "s";
-    particle.style.width = (Math.random() * 4 + 2) + "px";
+    particle.style.animationDuration = Math.random() * 4 + 6 + "s";
+    particle.style.width = Math.random() * 4 + 2 + "px";
     particle.style.height = particle.style.width;
     particle.style.opacity = Math.random() * 0.5 + 0.3;
     particlesContainer.appendChild(particle);
@@ -145,7 +197,7 @@ const animationObserver = new IntersectionObserver((entries) => {
 window.addEventListener("DOMContentLoaded", () => {
   const animatedElements = document.querySelectorAll(
     ".fade-in, .slide-in-left, .slide-in-right, .slide-up, " +
-      ".float-in, .reveal-scale, .clip-reveal"
+      ".float-in, .reveal-scale, .clip-reveal",
   );
 
   animatedElements.forEach((el) => {
@@ -288,12 +340,13 @@ const magneticBtns = document.querySelectorAll(".magnetic-btn");
 magneticBtns.forEach((btn) => {
   btn.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
+    // Use cursor position for magnetic effect locally but keep code clean
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    
-    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
   });
-  
+
   btn.addEventListener("mouseleave", () => {
     btn.style.transform = "translate(0, 0)";
   });
@@ -310,16 +363,16 @@ tiltCards.forEach((card) => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     const rotateX = (y - centerY) / 10;
     const rotateY = (centerX - x) / 10;
-    
+
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
   });
-  
+
   card.addEventListener("mouseleave", () => {
     card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
   });
@@ -366,7 +419,8 @@ function nextImage() {
 }
 
 function prevImage() {
-  currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+  currentImageIndex =
+    (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
   lightboxImg.src = galleryImages[currentImageIndex];
 }
 
@@ -384,7 +438,7 @@ lightbox.addEventListener("click", (e) => {
 // Keyboard navigation for lightbox
 document.addEventListener("keydown", (e) => {
   if (!lightbox.classList.contains("active")) return;
-  
+
   if (e.key === "Escape") closeLightbox();
   if (e.key === "ArrowRight") nextImage();
   if (e.key === "ArrowLeft") prevImage();
@@ -412,7 +466,7 @@ if (gallery && window.innerWidth <= 768) {
     (e) => {
       touchStartX = e.changedTouches[0].screenX;
     },
-    { passive: true }
+    { passive: true },
   );
 
   gallery.addEventListener(
@@ -421,7 +475,7 @@ if (gallery && window.innerWidth <= 768) {
       touchEndX = e.changedTouches[0].screenX;
       handleGallerySwipe();
     },
-    { passive: true }
+    { passive: true },
   );
 }
 
@@ -502,13 +556,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
 const sectionTitles = document.querySelectorAll(".section-title");
 
-const titleObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-    }
-  });
-}, { threshold: 0.5 });
+const titleObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  },
+  { threshold: 0.5 },
+);
 
 sectionTitles.forEach((title) => {
   titleObserver.observe(title);
@@ -520,12 +577,12 @@ sectionTitles.forEach((title) => {
 
 function createAmbientGlow() {
   const heroSection = document.querySelector(".hero-section");
-  
+
   heroSection.addEventListener("mousemove", (e) => {
     const rect = heroSection.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
+
     heroSection.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(201, 169, 98, 0.1), transparent 50%)`;
   });
 }
@@ -538,9 +595,9 @@ createAmbientGlow();
 
 console.log(
   "%c The S-Class - Excellence Refined ",
-  "background: linear-gradient(90deg, #9a7b3c, #c9a962); color: #000; font-size: 16px; font-weight: bold; padding: 10px;"
+  "background: linear-gradient(90deg, #9a7b3c, #c9a962); color: #000; font-size: 16px; font-weight: bold; padding: 10px;",
 );
 console.log(
   "%c Powered by Mercedes-Benz Premium Experience ",
-  "background: #000; color: #c9a962; font-size: 12px; padding: 5px;"
+  "background: #000; color: #c9a962; font-size: 12px; padding: 5px;",
 );
